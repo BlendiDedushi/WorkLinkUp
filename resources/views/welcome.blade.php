@@ -14,7 +14,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         .bgcl {
-            background-image: linear-gradient(to bottom, #27374d, #2f4157, #374b61, #3f556b, #475f75, #50697e, #5a7488, #647e91, #728b9c, #8098a8, #8ea5b3, #9db2bf);
+            /* background-image: linear-gradient(to bottom, #27374d, #2f4157, #374b61, #3f556b, #475f75, #50697e, #5a7488, #647e91, #728b9c, #8098a8, #8ea5b3, #9db2bf); */
+            background-color: #101927;
         }
 
         .bgclh {
@@ -85,9 +86,10 @@
             </div>
         </div>
         <div class="mt-5 w-50">
-            <form>
+            <form method="POST" action="#">
                 <div class="d-flex gap-3 justify-content-center align-items-center">
-                    <input type="text" class="form-control rounded" id="search" name="search">
+                    <input type="search" class="form-control rounded" id="search" name="search"
+                        placeholder="name, city, category...">
                     <button type="submit" class="btn btn-outline-light">Search</button>
                 </div>
             </form>
@@ -95,7 +97,7 @@
     </section>
 
     <section class="gg container my-5 bgclh p-5 rounded d-flex justify-content-between align-items-center gap-5">
-        <div class="card p-3 w-50">
+        <div class="card p-3">
             <div class="card-body font-monospace">
                 <p class="fs-2 fw-bold">For Companies and Agents:</p>
                 <br>
@@ -107,15 +109,49 @@
                 <p class="fw-semibold">
                     Connect with Talent: Receive applications directly through our platform, making the hiring process
                     efficient and streamlined.
-
                 </p>
             </div>
         </div>
-        <div class="mt-5 w-50">
-
+        <div class="card p-3 w-100">
+            <div class="card-body font-monospace">
+                <p class="fs-2 fw-bold">Why WorkLinkUp?</p>
+                <br>
+                <p class="fw-semibold">
+                    Networking Reinvented: Forge connections with professionals across industries. Build a network that
+                    opens doors to new opportunities and collaborations.
+                </p>
+                <br>
+                <p class="fw-semibold">
+                    Career Advancement: Elevate your professional journey with access to job postings, industry
+                    insights, and mentorship opportunities.
+                </p>
+                <p class="fw-semibold">
+                    Collaborate with Confidence: From startups to established enterprises, WorkLinkUp is where great
+                    ideas come to life.
+                </p>
+            </div>
         </div>
     </section>
-
+    @guest
+    <section class="gg container my-5 bgclh p-5 rounded">
+        <div class="card p-3">
+            <div class="card-body text-center font-monospace">
+                <p class="fs-2 fw-bold">Join WorkLinkUp Today: Your Career Awaits!</p>
+                <br>
+                <p class="fw-semibold">
+                    Signing up is quick and easy. Take the next step in your professional journey – join WorkLinkUp and
+                    let your career thrive.
+                </p>
+                <p class="fw-semibold">
+                    Ready to make the leap?
+                    <a href="{{ route('register') }}"
+                        class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover underline">Sign Up Now</a>
+                </p>
+                <br>
+            </div>
+        </div>
+    </section>
+    @endguest
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>

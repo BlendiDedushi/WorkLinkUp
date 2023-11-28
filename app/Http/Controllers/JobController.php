@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $jobs = Job::orderBy("id","desc")->paginate(10);
+        return view("shared.jobs.index", ["jobs"=> $jobs]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view("jobs.create");
     }
 
     /**
@@ -30,20 +27,15 @@ class JobController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $job = Job::findOrFail($id);
+        return view('shared.jobs.show', ['job' => $job]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        return view("jobs.edit");
     }
 
     /**
@@ -61,4 +53,11 @@ class JobController extends Controller
     {
         //
     }
+
+    // public function getAllJobs(){
+    //     if(auth()->user()->hasRole("admin")){
+    //         $jobs = Job::all();
+    //         return view("dashboard", ["jobs"=> $jobs]);
+    //     }
+    // }
 }

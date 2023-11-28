@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs', 'index')->name('jobs');
+    Route::get('/job/{id}', 'show')->name('job');
 });
