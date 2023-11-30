@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -11,7 +12,9 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        //
+        $applications = Application::all();
+
+        return $applications;
     }
 
     /**
