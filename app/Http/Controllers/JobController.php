@@ -6,6 +6,7 @@ use App\Models\Job;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
@@ -45,8 +46,9 @@ class JobController extends Controller
             $categories = $categoryController->index();
             $schedules = $scheduleController->index();
             $applications = $applicationController->index();
+            $roles = Role::all();
 
-            return view('dashboard', ["users" => $users,"jobs" => $jobs, "cities" => $cities, "categories" => $categories, "schedules" => $schedules,"applications" => $applications]);
+            return view('dashboard', compact('users', 'roles', 'jobs', 'cities', 'categories', 'schedules', 'applications'));
         } else {
             $applications = Application::where('user_id', auth()->id())->get();
 
@@ -87,11 +89,15 @@ class JobController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $job = Job::findOrFail($id);
+
+        try {
+            $job->delete();
+            return redirect()->route('dashboard')->with('success', 'Job was deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while deleting the job.');
+        }
     }
 }

@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $applications = Application::all();
@@ -25,12 +22,9 @@ class ApplicationController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -62,6 +56,13 @@ class ApplicationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $application = Application::findOrFail($id);
+
+        try {
+            $application->delete();
+            return redirect()->route('dashboard')->with('success', 'Application was deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while deleting the application.');
+        }
     }
 }

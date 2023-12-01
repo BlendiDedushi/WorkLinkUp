@@ -48,12 +48,19 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'role' => 'required|exists:roles,id',
+        ]);
+    
+        $user = User::findOrFail($id);
+    
+        $roleId = (int) $request->input('role');
+    
+        $user->syncRoles([$roleId]);
+    
+        return redirect()->route('dashboard')->with('success', 'User role updated successfully');
     }
 
     /**
@@ -61,6 +68,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        try {
+            $user->delete();
+            return redirect()->route('dashboard')->with('success', 'User was deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while deleting the user.');
+        }
     }
 }

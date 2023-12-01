@@ -15,16 +15,19 @@ class ScheduleSeed extends Seeder
             'Part-time (Flexible Hours)',
             'Contract',
             'Temporary',
-            'Internship',
-            'Remote',
             'Flexible Hours',
             'Shift Work',
             'Seasonal',
             'Project-Based',
-            'On-call',
-            'Remote-First',
             'Evening Shift (5pm - 12am)',
-            'Weekend Work'
+            'Weekend Work',
+            'Split Shift',
+            'Compressed Workweek',
+            'On-Call',
+            'Rotating Shifts',
+            'Four-Day Workweek',
+            'Flextime',
+            '24/7 Availability',
         ];
 
         foreach ($schedules as $schedule) {
