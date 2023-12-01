@@ -37,8 +37,12 @@ class JobController extends Controller
             $applications = Application::whereHas('job', function ($query) use ($jobs) {
                 $query->whereIn('user_id', $jobs->pluck('user_id'));
             })->get();
-
-            return view('dashboard', ["jobs" => $jobs, "applications" => $applications]);
+        
+            $cities = $cityController->index();
+            $categories = $categoryController->index();
+            $schedules = $scheduleController->index();
+        
+            return view('dashboard', compact('jobs', 'applications', 'cities', 'categories', 'schedules'));
         } else if (auth()->user()->hasRole('admin')) {
             $users = $userController->index();
             $jobs = Job::all();
@@ -47,26 +51,48 @@ class JobController extends Controller
             $schedules = $scheduleController->index();
             $applications = $applicationController->index();
             $roles = Role::all();
-
+        
             return view('dashboard', compact('users', 'roles', 'jobs', 'cities', 'categories', 'schedules', 'applications'));
         } else {
             $applications = Application::where('user_id', auth()->id())->get();
-
+        
             return view('dashboard', ["applications" => $applications]);
         }
-    }
-
-    public function create()
-    {
-        return view("jobs.create");
+        
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the form for creating a new resource.
      */
-    public function store(Request $request)
+    public function create()
     {
         //
+    }
+
+    public function store(Request $request)
+    {
+        $user_id = auth()->user()->id;
+    
+        $validatedData = $request->validate([
+            'city_id'      => 'required|exists:cities,id',
+            'category_id'  => 'required|exists:categories,id',
+            'schedule_id'  => 'required|exists:schedules,id',
+            'title'        => 'required|max:255',
+            'description'  => 'required',
+            'positions'    => 'required|integer|min:1',
+            'salary'       => 'required|numeric|min:0',
+            'remote'       => 'nullable|boolean',
+        ]);
+
+        $validatedData['user_id'] = $user_id;
+
+        try {
+            Job::create($validatedData);
+            return redirect()->route('dashboard')->with('success', 'Job created successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while creating the job.');
+        }
+        
     }
 
     public function show(string $id)
@@ -76,17 +102,36 @@ class JobController extends Controller
         return view('shared.jobs.show', ['job' => $job]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id)
     {
-        return view("jobs.edit");
+        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'city_id'      => 'required|exists:cities,id',
+            'category_id'  => 'required|exists:categories,id',
+            'schedule_id'  => 'required|exists:schedules,id',
+            'title'        => 'required|max:255',
+            'description'  => 'required',
+            'positions'    => 'required|integer|min:1',
+            'salary'       => 'required|numeric|min:0',
+            'remote'       => 'nullable|boolean',
+        ]);
+
+        $job = Job::findOrFail($id);
+
+        try {
+            $job->update($validatedData);
+            return redirect()->route('dashboard')->with('success', 'Job was updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while editing the job.');
+        }
     }
 
     public function destroy(string $id)

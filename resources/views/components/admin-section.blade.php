@@ -65,7 +65,8 @@
                                         @method('PATCH')
                                         <p class="mb-2">{{ $user->email }}</p>
                                         <div class="mb-3 d-flex justify-content-between align-items-center">
-                                            <select name="role" id="roles" class="form-select form-select-sm w-50" required>
+                                            <select name="role" id="roles" class="form-select form-select-sm w-50"
+                                                required>
                                                 @foreach($roles as $role)
                                                 <option value="{{ $role->id }}" {{ $user->hasRole($role->name) ?
                                                     'selected' : '' }}>
@@ -292,11 +293,11 @@
             </button>
         </p>
         <div class="collapse w-50" id="collapseAdminC">
-            @if(count($categories) > 0)
             <button type="button" class="btn btn-sm btn-outline-primary my-3" data-bs-toggle="modal"
                 data-bs-target="#createCategoryModal">
                 Create Category <i class="bi bi-plus-square"></i>
             </button>
+            @if(count($categories) > 0)
             <table class="table table-striped table-dark table-hover">
                 <thead>
                     <tr>
@@ -326,34 +327,6 @@
                             </button>
                         </td>
                     </tr>
-                    <!-- Create Category Modal -->
-                    <div class="modal fade text-light" id="createCategoryModal" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content bg-dark border">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Category</h1>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span style="color: white;">X</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('categories.store') }}" method="POST">
-                                        @csrf
-                                        <label for="name">Category Name:</label>
-                                        <input type="text" name="name" class="rounded text-dark" required>
-                                        <button type="submit" class="btn btn-sm btn-outline-primary">Create
-                                            Category</button>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-light"
-                                        data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- editCategoryModal -->
                     <div class="modal fade text-light" id="editCategoryModal{{ $category->id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -423,9 +396,35 @@
                 listings.
             </div>
             @endif
+            <!-- Create Category Modal -->
+            <div class="modal fade text-light" id="createCategoryModal" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark border">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Category</h1>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <span style="color: white;">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('categories.store') }}" method="POST">
+                                @csrf
+                                <label for="name">Category Name:</label>
+                                <input type="text" name="name" class="rounded text-dark" required>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Create
+                                    Category</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
     <div>
         <p class="d-inline-flex gap-1">
             <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
@@ -434,11 +433,11 @@
             </button>
         </p>
         <div class="collapse w-50" id="collapseAdminCt">
-            @if(count($cities) > 0)
             <button type="button" class="btn btn-sm btn-outline-primary my-3" data-bs-toggle="modal"
                 data-bs-target="#createCityModal">
                 Create City <i class="bi bi-plus-square"></i>
             </button>
+            @if(count($cities) > 0)
             <table class="table table-striped table-dark table-hover">
                 <thead>
                     <tr>
@@ -468,34 +467,6 @@
                             </button>
                         </td>
                     </tr>
-                    <!-- Create City Modal -->
-                    <div class="modal fade text-light" id="createCityModal" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content bg-dark border">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Create City</h1>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span style="color: white;">X</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('cities.store') }}" method="POST">
-                                        @csrf
-                                        <label for="name">City Name:</label>
-                                        <input type="text" name="name" class="rounded text-dark" required>
-                                        <button type="submit" class="btn btn-sm btn-outline-primary">Create
-                                            City</button>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-light"
-                                        data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- editCityModal -->
                     <div class="modal fade text-light" id="editCityModal{{ $city->id }}" data-bs-backdrop="static"
                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -562,6 +533,33 @@
                 listings.
             </div>
             @endif
+            <!-- Create City Modal -->
+            <div class="modal fade text-light" id="createCityModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark border">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create City</h1>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <span style="color: white;">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('cities.store') }}" method="POST">
+                                @csrf
+                                <label for="name">City Name:</label>
+                                <input type="text" name="name" class="rounded text-dark" required>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Create
+                                    City</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div>
@@ -572,11 +570,11 @@
             </button>
         </p>
         <div class="collapse w-50" id="collapseAdminS">
-            @if(count($schedules) > 0)
             <button type="button" class="btn btn-sm btn-outline-primary my-3" data-bs-toggle="modal"
                 data-bs-target="#createScheduleModal">
                 Create Schedule <i class="bi bi-plus-square"></i>
             </button>
+            @if(count($schedules) > 0)
             <table class="table table-striped table-dark table-hover">
                 <thead>
                     <tr>
@@ -607,34 +605,6 @@
                         </td>
                         </td>
                     </tr>
-                    <!-- Create Schedule Modal -->
-                    <div class="modal fade text-light" id="createScheduleModal" data-bs-backdrop="static"
-                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content bg-dark border">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Schedule</h1>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span style="color: white;">X</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('schedules.store') }}" method="POST">
-                                        @csrf
-                                        <label for="name">Schedule Name:</label>
-                                        <input type="text" name="name" class="rounded text-dark" required>
-                                        <button type="submit" class="btn btn-sm btn-outline-primary">Create
-                                            Schedule</button>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-light"
-                                        data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- editScheduleModal -->
                     <div class="modal fade text-light" id="editScheduleModal{{ $schedule->id }}"
                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -703,6 +673,33 @@
                 listings.
             </div>
             @endif
+            <!-- Create Schedule Modal -->
+            <div class="modal fade text-light" id="createScheduleModal" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark border">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Schedule</h1>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <span style="color: white;">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('schedules.store') }}" method="POST">
+                                @csrf
+                                <label for="name">Schedule Name:</label>
+                                <input type="text" name="name" class="rounded text-dark" required>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Create
+                                    Schedule</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

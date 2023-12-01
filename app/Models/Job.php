@@ -18,6 +18,7 @@ class Job extends Model
         'city_id',
         'category_id',
         'schedule_id',
+        'title',
         'description',
         'positions',
         'salary',
