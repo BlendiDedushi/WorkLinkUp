@@ -21,12 +21,18 @@ class CityController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|unique:cities|max:100'
+        ]);
+
+        try {
+            City::create($validatedData);
+            return redirect()->route('dashboard')->with('success', 'City created successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('cities.create')->with('error', 'An error occurred while creating the city.');
+        }
     }
 
     /**
@@ -45,19 +51,31 @@ class CityController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:100'
+        ]);
+
+        $city = City::findOrFail($id);
+
+        try {
+            $city->update($validatedData);
+            return redirect()->route('dashboard')->with('success', 'City was updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while editing the city.');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $city = City::findOrFail($id);
+
+        try {
+            $city->delete();
+            return redirect()->route('dashboard')->with('success', 'City was deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'An error occurred while deleting the city.');
+        }
     }
 }

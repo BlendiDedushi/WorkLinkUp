@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,6 +16,9 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [JobController::class, 'dashboard'])->name('dashboard');
+    Route::resource('schedules', ScheduleController::class);
+    Route::resource('cities', CityController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 Route::controller(JobController::class)->group(function () {

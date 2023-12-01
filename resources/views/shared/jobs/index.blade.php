@@ -28,11 +28,14 @@
         .gg:hover {
             box-shadow: 0px 0px 5px 3px rgba(218, 212, 206, 255);
         }
+        .scrollh::-webkit-scrollbar {
+            display: none;
+        }
     </style>
     @livewireStyles
 </head>
 
-<body class="bgcl">
+<body class="bgcl scrollh">
     <header>
         @if (Route::has('login'))
         @auth
