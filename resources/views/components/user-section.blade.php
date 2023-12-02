@@ -1,10 +1,18 @@
 <section class="container my-5">
-    <p class="d-inline-flex gap-1">
-        <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserA"
-            aria-expanded="true" aria-controls="collapseUserA">
-            Applications { {{ count($applications) }} }
-        </button>
-    </p>
+    <div class="d-flex justify-content-between">
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseUserA" aria-expanded="true" aria-controls="collapseUserA">
+                Applications { {{ count($applications) }} }
+            </button>
+        </p>
+        <div>
+            <a href="{{ route('user', auth()->user()->id) }}"
+                class="btn btn-outline-light position-relative rounded-circle text-danger">
+                <i class="bi bi-person-lines-fill"></i>
+            </a>
+        </div>
+    </div>
     <div class="collapse show mt-3" id="collapseUserA">
         @if(count($applications) > 0)
         <table class="table table-striped table-dark table-hover">
@@ -23,9 +31,9 @@
                 <tr>
                     <th scope="row">{{ $application->id }}</th>
                     <td>
-                        <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
                             href="{{ route('job', ['id' => $application->job_id]) }}">
-                            {{ $application->job->title }}
+                            {{ $application->job->title }} <i class="bi bi-box-arrow-in-right"></i>
                         </a>
                     </td>
                     <td>{{ $application->job->user->name }} - ({{ $application->job->user->email }})</td>

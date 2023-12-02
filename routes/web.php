@@ -18,20 +18,18 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [JobController::class, 'dashboard'])->name('dashboard');
+
     Route::resource('schedules', ScheduleController::class);
     Route::resource('cities', CityController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('applications', ApplicationController::class);
     Route::resource('jobs', JobController::class);
     Route::resource('users', UserController::class);
-});
 
-Route::controller(JobController::class)->group(function () {
-    Route::get('/jobs', 'index')->name('jobs');
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/job/{id}', 'show')->name('job');
+    Route::get('/job/{id}', [JobController::class, 'show'])->name('job');
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('user');
+
+    Route::middleware(['role:user|company'])->group(function () {
+        Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
     });
-    // Route::middleware(['role:user'])->group(function () {
-    //     Route::get('/job/{id}', 'show')->name('job');
-    // });
 });

@@ -1,11 +1,47 @@
 <section class="container my-5 d-flex flex-column gap-3">
     <div>
-        <p class="d-inline-flex gap-1">
-            <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseAdminU" aria-expanded="true" aria-controls="collapseAdminU">
-                Users { {{ count($users) }} }
-            </button>
-        </p>
+        <div class="d-flex justify-content-between">
+            <p class="d-inline-flex gap-1">
+                <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseAdminU" aria-expanded="true" aria-controls="collapseAdminU">
+                    Users { {{ count($users) }} }
+                </button>
+            </p>
+             <!-- notification for role update -->
+           {{--  @if(count($pendingApplications) > 0)
+                <div>
+                    <button type="button" class="btn btn-outline-light position-relative rounded-circle text-danger"
+                        id="notifyButton" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+                            id="notificationBadge">
+                            {{ count($pendingApplications) }}
+                        </span>
+                    </button>
+                    <div class="modal fade text-light" id="notificationModal" tabindex="-1"
+                        aria-labelledby="notificationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content bg-dark border">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <span style="color: white;">X</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @foreach($pendingApplications as $application)
+                                    <p><b>{{ $application->user->email }}</b> applied for <b>{{ $application->job->title
+                                            }}</b>
+                                        {{ $application->created_at->diffForHumans() }}</p>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif --}}
+        </div>
         <div class="collapse show mt-3" id="collapseAdminU">
             <table class="table table-striped table-dark table-hover">
                 <thead>
@@ -24,7 +60,12 @@
                     <tr>
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td>
+                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
+                                href="{{ route('user', $user->id) }}">
+                                {{ $user->email }} <i class="bi bi-box-arrow-in-right"></i>
+                            </a>
+                        </td>
                         <td><b>{{ strtoupper($user->getRoleNames()->implode(', ')) }}</b></td>
                         <td>{{ $user->created_at->format('H:i d-M-Y') }}</td>
                         @if($user->id !== auth()->user()->id)
@@ -152,9 +193,9 @@
                         <td>{{ $job->category->name }}</td>
                         <td>{{ $job->schedule->name }}</td>
                         <td>
-                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
                                 href="{{ route('job', ['id' => $job->id]) }}">
-                                {{ $job->title }}
+                                {{ $job->title }} <i class="bi bi-box-arrow-in-right"></i>
                             </a>
                         </td>
                         <td>{{ $job->positions }}</td>
@@ -231,12 +272,7 @@
                         <th scope="row">{{ $application->id }}</th>
                         <!-- App\Models\User::where('id',$application->user_id)->first()->email -->
                         <td>{{ $application->user->email }}</td>
-                        <td>
-                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="{{ route('job', ['id' => $application->job_id]) }}">
-                                {{ $application->job->title }}
-                            </a>
-                        </td>
+                        <td>{{ $application->job->title }}</td>
                         <td>{{ $application->job->user->email }}</td>
                         <td>{{ $application->created_at->format('H:i d-M-Y') }}</td>
                         <td class="text-center">

@@ -32,12 +32,28 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $authenticatedUser = auth()->user();
+    
+        if ($authenticatedUser->hasRole('admin')) {
+            return view('shared.users.show', compact('user'));
+        }
+    
+        if ($authenticatedUser->hasRole('company')) {
+            if ($authenticatedUser->id === $user->id || $authenticatedUser->jobs->flatMap(function ($job) {
+                return $job->applications;
+            })->where('user_id', $user->id)->isNotEmpty()) {
+                return view('shared.users.show', compact('user'));
+            }
+        }
+    
+        if ($authenticatedUser->hasRole('user') && $authenticatedUser->id === $user->id) {
+            return view('shared.users.show', compact('user'));
+        }
+    
+        return redirect()->route('dashboard')->with('error', 'You do not have permission to view this user.');
     }
 
     /**
