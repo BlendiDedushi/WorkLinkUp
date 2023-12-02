@@ -45,7 +45,22 @@
         @endauth
         @endif
     </header>
-<h1>{{ $job->title }}</h1>
+    <h1>{{ $job->title }}</h1>
+    <form action="{{ route('applications.store') }}" method="POST" id="applicationForm">
+        @csrf
+        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+        <input type="hidden" name="job_id" value="{{ $job->id }}">
+        @if($existingApplication)
+        <button type="button" class="btn btn-outline-light my-3" disabled>
+            Already Applied
+        </button>
+        @else
+        <button type="submit" class="btn btn-outline-light my-3" id="applyButton">
+            Apply
+        </button>
+        @endif
+    </form>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>

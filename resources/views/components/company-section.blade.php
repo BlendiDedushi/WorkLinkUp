@@ -266,6 +266,9 @@
                         <th scope="col">User</th>
                         <th scope="col">Job</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Edit</th>
+                        <th scope="col" class="text-center">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -280,7 +283,87 @@
                             </a>
                         </td>
                         <td>{{ $application->created_at->format('H:i d-M-Y') }}</td>
+                        <td>{{ $application->status }}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-link" style="padding: 0; color: green;"
+                                data-bs-toggle="modal" data-bs-target="#editApplicationModal{{ $application->id }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-link" style="padding: 0; color: red;"
+                                data-bs-toggle="modal" data-bs-target="#deleteApplicationModal{{ $application->id }}">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </td>
                     </tr>
+                    <!-- editApplicationModal -->
+                    <div class="modal fade text-light" id="editApplicationModal{{ $application->id }}"
+                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content bg-dark border">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Application</h1>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <span style="color: white;">X</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('applications.update', $application->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="d-flex justify-content-center align-items-center mb-5">
+                                            <label for="status">Application Status:</label>
+                                            <select name="status" id="status" class="rounded text-dark" required>
+                                                @foreach(['Approved', 'Pending', 'Declined'] as $status)
+                                                <option value="{{ $status }}" {{ $application->status === $status ?
+                                                    'selected' : '' }}>
+                                                    {{ ucfirst($status) }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-end align-items-center mt-2">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Update
+                                                Status</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- deleteApplicationModal -->
+                    <div class="modal fade text-light" id="deleteApplicationModal{{ $application->id }}"
+                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content bg-dark border">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm Deletion</h1>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <span style="color: white;">X</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete this application - [ {{ $application->id }} ] ?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-light"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <form action="{{ route('applications.destroy', $application->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>

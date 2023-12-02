@@ -98,8 +98,12 @@ class JobController extends Controller
     public function show(string $id)
     {
         $job = Job::findOrFail($id);
+        $user = auth()->user();
+        $existingApplication = Application::where('user_id', $user->id)
+        ->where('job_id', $job->id)
+        ->first();
 
-        return view('shared.jobs.show', ['job' => $job]);
+        return view('shared.jobs.show', compact('job','existingApplication'));
     }
 
     /**
