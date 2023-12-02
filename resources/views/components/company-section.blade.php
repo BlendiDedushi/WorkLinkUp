@@ -1,11 +1,45 @@
 <section class="container my-5 d-flex flex-column gap-3">
     <div>
-        <p class="d-inline-flex gap-1 mb-3">
-            <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseCompanyJ" aria-expanded="true" aria-controls="collapseCompanyJ">
-                Jobs { {{ count($jobs) }} }
-            </button>
-        </p>
+        <div class="d-flex justify-content-between">
+            <p class="d-inline-flex gap-1 mb-3">
+                <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseCompanyJ" aria-expanded="true" aria-controls="collapseCompanyJ">
+                    Jobs { {{ count($jobs) }} }
+                </button>
+            </p>
+            @if(count($pendingApplications) > 0)
+            <div>
+                <button type="button" class="btn btn-outline-light position-relative rounded-circle" id="notifyButton"
+                    data-bs-toggle="modal" data-bs-target="#notificationModal">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+                        id="notificationBadge">
+                        {{ count($pendingApplications) }}
+                    </span>
+                </button>
+                <div class="modal fade text-light" id="notificationModal" tabindex="-1"
+                    aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark border">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <span style="color: white;">X</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @foreach($pendingApplications as $application)
+                                <p><b>{{ $application->user->email }}</b> applied for <b>{{ $application->job->title }}</b> 
+                                {{ $application->created_at->diffForHumans() }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
         <div class="collapse show" id="collapseCompanyJ">
             <button type="button" class="btn btn-sm btn-outline-primary my-3" data-bs-toggle="modal"
                 data-bs-target="#createJobModal">

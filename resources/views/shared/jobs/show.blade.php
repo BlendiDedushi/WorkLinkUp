@@ -20,6 +20,16 @@
         .bgclh {
             background-color: #1e2936;
         }
+
+        .desc {
+            box-shadow: 0px 0px 5px 3px rgba(218, 212, 206, 255);
+        }
+
+        #applyButton,
+        #disabledButton,
+        .crd {
+            width: 30vh;
+        }
     </style>
     @livewireStyles
 </head>
@@ -45,21 +55,80 @@
         @endauth
         @endif
     </header>
-    <h1>{{ $job->title }}</h1>
-    <form action="{{ route('applications.store') }}" method="POST" id="applicationForm">
-        @csrf
-        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-        <input type="hidden" name="job_id" value="{{ $job->id }}">
-        @if($existingApplication)
-        <button type="button" class="btn btn-outline-light my-3" disabled>
-            Already Applied
-        </button>
-        @else
-        <button type="submit" class="btn btn-outline-light my-3" id="applyButton">
-            Apply
-        </button>
-        @endif
-    </form>
+    <section class="container d-flex justify-content-between  my-4">
+        <div class="border rounded bg-light desc">
+            <div class="p-3 text-start">
+                <h2 class="fs-2 fw-bold fst-italic">{{ $job->title }}</h2>
+            </div>
+            <div class="p-3">
+                <?php
+                    $sentences = explode('.', $job->description);
+                    foreach ($sentences as $sentence) {
+                        $sentence = trim($sentence);
+                        if (!empty($sentence)) {
+                            if (strpos($sentence, 'Responsibilities:') !== false) {
+                                echo '<p class="lh-lg text-start"><strong>Responsibilities:</strong><br>' . substr($sentence, strlen('Responsibilities:')) . '.</p>';
+                            } elseif (strpos($sentence, 'Requirements:') !== false) {
+                                echo '<p class="lh-lg text-start"><strong>Requirements:</strong><br>' . substr($sentence, strlen('Requirements:')) . '.</p>';
+                            } elseif (strpos($sentence, 'Benefits:') !== false) {
+                                echo '<p class="lh-lg text-start"><strong>Benefits:</strong><br>' . substr($sentence, strlen('Benefits:')) . '.</p>';
+                            } else {
+                                echo '<p class="lh-lg text-start">' . $sentence . '.</p>';
+                            }
+                        }
+                    }
+                ?>
+            </div>
+
+        </div>
+        <div>
+            @role('user')
+            <div>
+                <form action="{{ route('applications.store') }}" method="POST" id="applicationForm">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="job_id" value="{{ $job->id }}">
+                    @if($existingApplication)
+                    <button type="button" class="btn btn-outline-light" disabled id="disabledButton">
+                        Already Applied
+                    </button>
+                    @else
+                    <button type="submit" class="btn btn-outline-light" id="applyButton">
+                        Apply
+                    </button>
+                    @endif
+                </form>
+            </div>
+            @endrole
+            <div class="mt-4 crd">
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="bi bi-geo-alt"> Location:</i> <br>
+                            <b> {{ $job->city->name }}</b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-bookmark"> Category:</i> <br>
+                            <b> {{ $job->category->name }}</b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-clock"> Schedule:</i> <br>
+                            <b> {{ $job->schedule->name }}</b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-people"> Open positions:</i> <br>
+                            <b> {{ $job->positions}}</b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-pc-display-horizontal"> Remote:</i> <br>
+                            <b> {{ $job->remote ? 'Yes' : 'No' }} </b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-buildings"> Company:</i> <br>
+                            <b> {{ $job->user->name }} ({{$job->user->email}}) </b>
+                        </li>
+                        <li class="list-group-item"><i class="bi bi-wallet2"> Salary:</i> <br>
+                            <b> {{ $job->salary }} &euro;</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

@@ -65,16 +65,12 @@
                 <div class="gg card mt-4">
                     <div class="card-body text-center">
                         <h2 class="fs-3 badge bg-black text-wrap card-title">{{ $job->title }}</h2>
-                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ App\Models\User::where('id',
-                                $job->user_id)->first()->email }}</b></h6>
-                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b> {{ App\Models\Schedule::where('id',
-                                $job->schedule_id)->first()->name }}</b></h6>
+                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->user->email }}</b></h6>
+                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->schedule->name }}</b></h6>
                         <div class="d-flex justify-content-around">
                             <div>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Category: <b> {{
-                                        App\Models\Category::where('id', $job->category_id)->first()->name }} </b></h6>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">City: <b> {{
-                                        App\Models\City::where('id', $job->city_id)->first()->name }}</b></h6>
+                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Category: <b> {{ $job->category->name }} </b></h6>
+                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">City: <b> {{ $job->city->name }}</b></h6>
                             </div>
                             <div>
                                 <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Positions : <b> {{

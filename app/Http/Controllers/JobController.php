@@ -37,12 +37,15 @@ class JobController extends Controller
             $applications = Application::whereHas('job', function ($query) use ($jobs) {
                 $query->whereIn('user_id', $jobs->pluck('user_id'));
             })->get();
+            $pendingApplications = Application::whereHas('job', function ($query) use ($jobs) {
+                $query->whereIn('user_id', $jobs->pluck('user_id'));
+            })->where('status', 'Pending')->get();
         
             $cities = $cityController->index();
             $categories = $categoryController->index();
             $schedules = $scheduleController->index();
         
-            return view('dashboard', compact('jobs', 'applications', 'cities', 'categories', 'schedules'));
+            return view('dashboard', compact('jobs', 'applications', 'cities', 'categories', 'schedules','pendingApplications'));
         } else if (auth()->user()->hasRole('admin')) {
             $users = $userController->index();
             $jobs = Job::all();
