@@ -74,7 +74,7 @@
                         <select class="form-select zz" id="city" name="city">
                             <option value="" selected>All Cities</option>
                             @foreach($cities as $city)
-                            <option value="{{ $city->id }}" {{ request('city') == $city->id ? 'selected' : '' }}>
+                            <option value="{{ $city->id }}" {{ request('city')==$city->id ? 'selected' : '' }}>
                                 {{ $city->name }}
                             </option>
                             @endforeach
@@ -100,7 +100,20 @@
         <div class="container">
             <div>
                 <h1 class="fs-1 text-white">All Jobs</h1>
-                {{ $jobs->links() }}
+                @if ($jobs->lastPage() > 1)
+                <div class="d-flex gap-2 justify-content-between my-3">
+                    <a class="btn btn-sm {{$jobs->onFirstPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
+                        href="{{$jobs->previousPageUrl()}}"><i class="bi bi-caret-left"></i></a>
+                    <div class="d-flex gap-3">
+                        @for($i=1; $i<=$jobs->lastPage(); $i++)
+                            <a class="btn btn-sm {{$i == $jobs->currentPage() ? 'btn-danger' : 'btn-outline-light'}}"
+                                href="{{$jobs->url($i)}}">{{$i}}</a>
+                            @endfor
+                    </div>
+                    <a class="btn btn-sm {{$jobs->onLastPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
+                        href="{{$jobs->nextPageUrl()}}"><i class="bi bi-caret-right"></i></a>
+                </div>
+                @endif
             </div>
             @foreach($jobs as $job)
             <a href="{{ route('job', ['id' => $job->id]) }}">
@@ -130,7 +143,20 @@
                 </div>
             </a>
             @endforeach
-            {{ $jobs->links() }}
+            @if ($jobs->lastPage() > 1)
+            <div class="d-flex gap-2 justify-content-between my-3">
+                <a class="btn btn-sm {{$jobs->onFirstPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
+                    href="{{$jobs->previousPageUrl()}}"><i class="bi bi-caret-left"></i></a>
+                <div class="d-flex gap-3">
+                    @for($i=1; $i<=$jobs->lastPage(); $i++)
+                        <a class="btn btn-sm {{$i == $jobs->currentPage() ? 'btn-danger' : 'btn-outline-light'}}"
+                            href="{{$jobs->url($i)}}">{{$i}}</a>
+                        @endfor
+                </div>
+                <a class="btn btn-sm {{$jobs->onLastPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
+                    href="{{$jobs->nextPageUrl()}}"><i class="bi bi-caret-right"></i></a>
+            </div>
+            @endif
         </div>
     </section>
     @else
