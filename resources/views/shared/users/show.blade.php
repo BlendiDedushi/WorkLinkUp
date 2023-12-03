@@ -92,7 +92,7 @@
         @endif
     </div>
 
-    <section class="container d-flex justify-content-between my-2">
+    <section class="container d-flex justify-content-between my-2 font-monospace">
         <div class="w-50 d-flex flex-column">
             <div class=" d-flex justify-content-between">
                 <div>

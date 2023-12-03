@@ -55,8 +55,8 @@
         @endauth
         @endif
     </header>
-    <section class="container d-flex justify-content-between my-5">
-        <div class="border rounded bg-light desc w-75">
+    <section class="container d-flex justify-content-between my-5 font-monospace">
+        <div class="border rounded bg-dark text-white desc w-75">
             <div class="p-3 text-start">
                 <h2 class="fs-2 fw-bold fst-italic">{{ $job->title }}</h2>
             </div>
@@ -67,11 +67,11 @@
                         $sentence = trim($sentence);
                         if (!empty($sentence)) {
                             if (strpos($sentence, 'Responsibilities:') !== false) {
-                                echo '<p class="lh-lg text-start"><strong>Responsibilities:</strong><br>' . substr($sentence, strlen('Responsibilities:')) . '.</p>';
+                                echo '<p class="lh-lg text-start"><br><strong>Responsibilities:</strong><br>' . substr($sentence, strlen('Responsibilities:')) . '.</p>';
                             } elseif (strpos($sentence, 'Requirements:') !== false) {
-                                echo '<p class="lh-lg text-start"><strong>Requirements:</strong><br>' . substr($sentence, strlen('Requirements:')) . '.</p>';
+                                echo '<p class="lh-lg text-start"><br><strong>Requirements:</strong><br>' . substr($sentence, strlen('Requirements:')) . '.</p>';
                             } elseif (strpos($sentence, 'Benefits:') !== false) {
-                                echo '<p class="lh-lg text-start"><strong>Benefits:</strong><br>' . substr($sentence, strlen('Benefits:')) . '.</p>';
+                                echo '<p class="lh-lg text-start"><br><strong>Benefits:</strong><br>' . substr($sentence, strlen('Benefits:')) . '.</p>';
                             } else {
                                 echo '<p class="lh-lg text-start">' . $sentence . '.</p>';
                             }
@@ -103,25 +103,25 @@
             <div class="mt-4 crd">
                 <div class="card">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><i class="bi bi-geo-alt"> Location:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-geo-alt"> Location:</i> <br>
                             <b> {{ $job->city->name }}</b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-bookmark"> Category:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-bookmark"> Category:</i> <br>
                             <b> {{ $job->category->name }}</b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-clock"> Schedule:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-clock"> Schedule:</i> <br>
                             <b> {{ $job->schedule->name }}</b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-people"> Open positions:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-people"> Open positions:</i> <br>
                             <b> {{ $job->positions}}</b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-pc-display-horizontal"> Remote:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-pc-display-horizontal"> Remote:</i> <br>
                             <b> {{ $job->remote ? 'Yes' : 'No' }} </b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-buildings"> Company:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-buildings"> Company:</i> <br>
                             <b> {{ $job->user->name }} ({{$job->user->email}}) </b>
                         </li>
-                        <li class="list-group-item"><i class="bi bi-wallet2"> Salary:</i> <br>
+                        <li class="list-group-item bg-dark text-white"><i class="bi bi-wallet2"> Salary:</i> <br>
                             <b> {{ $job->salary }} &euro;</b>
                         </li>
                     </ul>

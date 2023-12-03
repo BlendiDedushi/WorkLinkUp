@@ -99,7 +99,7 @@
         </div>
         <div class="container">
             <div>
-                <h1 class="fs-1 text-white">All Jobs</h1>
+                <h1 class="fs-1 font-monospace text-white">All Jobs</h1>
                 @if ($jobs->lastPage() > 1)
                 <div class="d-flex gap-2 justify-content-between my-3">
                     <a class="btn btn-sm {{$jobs->onFirstPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
@@ -115,34 +115,44 @@
                 </div>
                 @endif
             </div>
-            @foreach($jobs as $job)
-            <a href="{{ route('job', ['id' => $job->id]) }}">
-                <div class="gg card my-4">
-                    <div class="card-body text-center">
-                        <h2 class="fs-3 badge bg-black text-wrap card-title">{{ $job->title }}</h2>
-                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->user->email }}</b></h6>
-                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->schedule->name }}</b></h6>
-                        <div class="d-flex justify-content-around">
-                            <div>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Category: <b> {{
-                                        $job->category->name }} </b></h6>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">City: <b> {{ $job->city->name
-                                        }}</b></h6>
+            <div class="d-flex flex-column align-items-center">
+                @foreach($jobs as $job)
+                <div class="gg my-4 w-75 card font-monospace p-2 bg-dark text-white border">
+                    <a href="{{ route('job', ['id' => $job->id]) }}">
+                        <div class="card-header fw-semibold fs-3 text-center">
+                            {{ $job->title }}
+                        </div>
+                        <hr class="border border-light border-2 opacity-50">
+                        <div class="d-flex flex-row justify-content-around">
+                            <div class="card-body fs-5 d-flex flex-column w-50">
+                                <div>
+                                    <i class="bi bi-buildings"></i> {{ $job->user->name }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-geo-alt"></i> {{ $job->city->name }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-bookmark"></i> {{ $job->category->name }}
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Positions : <b> {{
-                                        $job->positions }}</b>
-                                </h6>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Salary : <b> {{ $job->salary
-                                        }}</b></h6>
+                            <div class="card-body fs-5 d-flex justify-content-start w-50">
+                                <div class="d-flex flex-column text-start">
+                                <div>
+                                    <i class="bi bi-clock"></i> {{ $job->schedule->name }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-people"></i> {{ $job->positions}}
+                                </div>
+                                <div>
+                                    <i class="bi bi-wallet2"></i> {{ $job->salary }} &euro;
+                                </div>
+                                </div>
                             </div>
                         </div>
-                        <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Published on : <b> {{
-                                $job->created_at->format('d/M/Y') }}</b></h6>
-                    </div>
+                    </a>
                 </div>
-            </a>
-            @endforeach
+                @endforeach
+            </div>
             @if ($jobs->lastPage() > 1)
             <div class="d-flex gap-2 justify-content-between my-3">
                 <a class="btn btn-sm {{$jobs->onFirstPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
