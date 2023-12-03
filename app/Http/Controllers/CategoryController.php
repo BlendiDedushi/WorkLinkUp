@@ -13,14 +13,6 @@ class CategoryController extends Controller
         return $categories;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,22 +25,6 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('dashboard')->with('error', 'An error occurred while creating the category.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     public function update(Request $request, string $id)

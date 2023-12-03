@@ -7,40 +7,49 @@
                     Users { {{ count($users) }} }
                 </button>
             </p>
-             <!-- notification for role update -->
-           {{--  @if(count($pendingApplications) > 0)
-                <div>
-                    <button type="button" class="btn btn-outline-light position-relative rounded-circle text-danger"
-                        id="notifyButton" data-bs-toggle="modal" data-bs-target="#notificationModal">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
-                            id="notificationBadge">
-                            {{ count($pendingApplications) }}
-                        </span>
-                    </button>
-                    <div class="modal fade text-light" id="notificationModal" tabindex="-1"
-                        aria-labelledby="notificationModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content bg-dark border">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span style="color: white;">X</span>
-                                    </button>
+            @if($totalRequestsCount > 0)
+            <div>
+                <button type="button" class="btn btn-outline-light position-relative rounded-circle text-danger"
+                    id="notifyButton" data-bs-toggle="modal" data-bs-target="#notificationModal">
+                    <i class="bi bi-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+                        id="notificationBadge">
+                        {{ $totalRequestsCount }}
+                    </span>
+                </button>
+                <div class="modal fade text-light" id="notificationModal" tabindex="-1"
+                    aria-labelledby="notificationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark border">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <span style="color: white;">X</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @foreach($pendingRequests as $request)
+                                <div class="mb-3 d-flex">
+                                    <p class="mb-2"><a
+                                                class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
+                                                href="{{ route('user', $request->id) }}">
+                                                {{ $request->email }} <i class="bi bi-box-arrow-in-right"></i>
+                                            </a> wants to change role to company
+                                    <form action="{{ route('deleteRequest', $request->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
+                                    </form>
+                                    </p>
                                 </div>
-                                <div class="modal-body">
-                                    @foreach($pendingApplications as $application)
-                                    <p><b>{{ $application->user->email }}</b> applied for <b>{{ $application->job->title
-                                            }}</b>
-                                        {{ $application->created_at->diffForHumans() }}</p>
-                                    @endforeach
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
-                @endif --}}
+            </div>
+            @endif
         </div>
         <div class="collapse show mt-3" id="collapseAdminU">
             <table class="table table-striped table-dark table-hover">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\City;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Application;
 use Illuminate\Http\Request;
@@ -35,14 +36,14 @@ class JobController extends Controller
         $jobs = Job::when($query, function ($queryBuilder) use ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         })
-        ->when($cityId, function ($queryBuilder) use ($cityId) {
-            $queryBuilder->where('city_id', $cityId);
-        })
-        ->when($categoryId, function ($queryBuilder) use ($categoryId) {
-            $queryBuilder->where('category_id', $categoryId);
-        })
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->when($cityId, function ($queryBuilder) use ($cityId) {
+                $queryBuilder->where('city_id', $cityId);
+            })
+            ->when($categoryId, function ($queryBuilder) use ($categoryId) {
+                $queryBuilder->where('category_id', $categoryId);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         $cities = City::all();
         $categories = Category::all();
@@ -79,22 +80,16 @@ class JobController extends Controller
             $schedules = $scheduleController->index();
             $applications = $applicationController->index();
             $roles = Role::all();
+            $pendingRequests = User::where('sendRequest', true)->get();
+            $totalRequestsCount = User::where('sendRequest', true)->count();
 
-            return view('dashboard', compact('users', 'roles', 'jobs', 'cities', 'categories', 'schedules', 'applications'));
+            return view('dashboard', compact('users', 'roles', 'jobs', 'cities', 'categories', 'schedules', 'applications','pendingRequests','totalRequestsCount'));
         } else {
             $applications = Application::where('user_id', auth()->id())->get();
 
             return view('dashboard', ["applications" => $applications]);
         }
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -133,15 +128,6 @@ class JobController extends Controller
 
         return view('shared.jobs.show', compact('job', 'existingApplication'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
 
     public function update(Request $request, string $id)
     {

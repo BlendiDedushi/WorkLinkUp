@@ -13,14 +13,6 @@ class CityController extends Controller
         return $cities;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,22 +25,6 @@ class CityController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('cities.create')->with('error', 'An error occurred while creating the city.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     public function update(Request $request, string $id)

@@ -38,4 +38,7 @@ Route::middleware([
     Route::middleware(['role:user|company'])->group(function () {
         Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
     });
+
+    Route::post('/send-request', [UserController::class, 'sendRequest'])->middleware(['role:user'])->name('sendRequest');
+    Route::delete('/delete-request/{id}', [UserController::class, 'deleteRequest'])->middleware(['role:admin'])->name('deleteRequest');
 });

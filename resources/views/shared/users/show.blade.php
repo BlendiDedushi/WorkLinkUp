@@ -113,6 +113,14 @@
                             href="{{ route('download.pdf', $user->id) }}">Download PDF <i
                                 class="bi bi-file-earmark-arrow-down"></i></a></p>
                     @endif
+                    @if ($user->filename && auth()->user()->hasRole('user'))
+                    @if(!$user->sendRequest)
+                        <form action="{{ route('sendRequest') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-primary">Change role to company</button>
+                        </form>
+                    @endif
+                    @endif
                 </div>
             </div>
             <div class="text-white w-50 mt-2">

@@ -153,4 +153,31 @@ class UserController extends Controller
         }
     }
 
+    public function sendRequest()
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            $user->sendRequest = true;
+            $user->save();
+            return redirect()->back()->with('success', 'Request sent successfully!');
+        }
+
+        return redirect()->back()->with('error', 'User not authenticated');
+    }
+
+    public function deleteRequest(string $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->sendRequest = false;
+            $user->save();
+            return redirect()->back()->with('success', 'Request deleted successfully!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'User not found');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete request');
+        }
+    }
+
 }

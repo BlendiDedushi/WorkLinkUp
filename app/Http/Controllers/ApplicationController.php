@@ -14,14 +14,6 @@ class ApplicationController extends Controller
         return $applications;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
@@ -48,22 +40,6 @@ class ApplicationController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
@@ -80,9 +56,6 @@ class ApplicationController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $application = Application::findOrFail($id);
