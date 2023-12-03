@@ -18,7 +18,6 @@
         <table class="table table-striped table-dark table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Job Title</th>
                     <th scope="col">Company</th>
                     <th scope="col">Date</th>
@@ -29,7 +28,6 @@
             <tbody>
                 @foreach($applications as $application)
                 <tr>
-                    <th scope="row">{{ $application->id }}</th>
                     <td>
                         <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
                             href="{{ route('job', ['id' => $application->job_id]) }}">

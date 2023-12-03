@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="modal-body">
                                     @foreach($pendingApplications as $application)
-                                    <p><b>{{ $application->user->email }}</b> applied for <b>{{ $application->job->title
+                                    <p class="mb-2"><b>{{ $application->user->email }}</b> applied for <b>{{ $application->job->title
                                             }}</b>
                                         {{ $application->created_at->diffForHumans() }}</p>
                                     @endforeach
@@ -58,7 +58,6 @@
             <table class="table table-striped table-dark table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">City</th>
                         <th scope="col">Category</th>
@@ -74,7 +73,6 @@
                 <tbody>
                     @foreach($jobs as $job)
                     <tr>
-                        <th scope="row">{{ $job->id }}</th>
                         <td>
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
                                 href="{{ route('job', ['id' => $job->id]) }}">
@@ -305,7 +303,6 @@
             <table class="table table-striped table-dark table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">User</th>
                         <th scope="col">Job</th>
                         <th scope="col">Date</th>
@@ -317,7 +314,6 @@
                 <tbody>
                     @foreach($applications as $application)
                     <tr>
-                        <th scope="row">{{ $application->id }}</th>
                         <td>
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-warning"
                                 href="{{ route('user', $application->user->id) }}">

@@ -29,6 +29,12 @@ Route::middleware([
     Route::get('/job/{id}', [JobController::class, 'show'])->name('job');
     Route::get('/user/{id}/show-profile', [UserController::class, 'show'])->name('user');
 
+    Route::post('/add-pdf', [UserController::class, 'addPdf'])->name('add.pdf');
+    Route::post('/update-pdf', [UserController::class, 'updatePdf'])->name('update.pdf');
+    Route::delete('/delete-pdf', [UserController::class, 'deletePdf'])->name('delete.pdf');
+    Route::get('/download-pdf/{id}', [UserController::class, 'downloadPdf'])->name('download.pdf');
+
+
     Route::middleware(['role:user|company'])->group(function () {
         Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
     });

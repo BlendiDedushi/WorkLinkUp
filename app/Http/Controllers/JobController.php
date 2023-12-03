@@ -42,7 +42,7 @@ class JobController extends Controller
             $queryBuilder->where('category_id', $categoryId);
         })
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(10);
 
         $cities = City::all();
         $categories = Category::all();

@@ -55,8 +55,8 @@
         @endauth
         @endif
     </header>
-    <section class="container d-flex justify-content-between  my-4">
-        <div class="border rounded bg-light desc">
+    <section class="container d-flex justify-content-between my-5">
+        <div class="border rounded bg-light desc w-75">
             <div class="p-3 text-start">
                 <h2 class="fs-2 fw-bold fst-italic">{{ $job->title }}</h2>
             </div>

@@ -74,7 +74,7 @@
                         <select class="form-select zz" id="city" name="city">
                             <option value="" selected>All Cities</option>
                             @foreach($cities as $city)
-                            <option value="{{ $city->id }}" {{ request('city')==$city->id ? 'selected' : '' }}>
+                            <option value="{{ $city->id }}" {{ request('city') == $city->id ? 'selected' : '' }}>
                                 {{ $city->name }}
                             </option>
                             @endforeach
@@ -98,10 +98,13 @@
             </form>
         </div>
         <div class="container">
-            <h1 class="fs-1 text-white">All Jobs</h1>
+            <div>
+                <h1 class="fs-1 text-white">All Jobs</h1>
+                {{ $jobs->links() }}
+            </div>
             @foreach($jobs as $job)
             <a href="{{ route('job', ['id' => $job->id]) }}">
-                <div class="gg card mt-4">
+                <div class="gg card my-4">
                     <div class="card-body text-center">
                         <h2 class="fs-3 badge bg-black text-wrap card-title">{{ $job->title }}</h2>
                         <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->user->email }}</b></h6>
@@ -127,6 +130,7 @@
                 </div>
             </a>
             @endforeach
+            {{ $jobs->links() }}
         </div>
     </section>
     @else
