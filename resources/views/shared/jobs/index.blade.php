@@ -28,8 +28,13 @@
         .gg:hover {
             box-shadow: 0px 0px 5px 3px rgba(218, 212, 206, 255);
         }
+
         .scrollh::-webkit-scrollbar {
             display: none;
+        }
+
+        .zz {
+            height: 38px;
         }
     </style>
     @livewireStyles
@@ -59,6 +64,40 @@
     @if($jobs && $jobs->count() > 0)
     <section class="my-5">
         <div class="container">
+            <form action="{{ route('jobs') }}" method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <input type="text" class="form-control rounded zz" placeholder="Job Title" id="title" name="q"
+                            value="{{ $query ?? '' }}">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select class="form-select zz" id="city" name="city">
+                            <option value="" selected>All Cities</option>
+                            @foreach($cities as $city)
+                            <option value="{{ $city->id }}" {{ request('city')==$city->id ? 'selected' : '' }}>
+                                {{ $city->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <select class="form-select zz" id="category" name="category">
+                            <option value="" selected>All Categories</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : ''
+                                }}>
+                                {{ $category->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container">
             <h1 class="fs-1 text-white">All Jobs</h1>
             @foreach($jobs as $job)
             <a href="{{ route('job', ['id' => $job->id]) }}">
@@ -69,8 +108,10 @@
                         <h6 class="card-subtitle fs-5 mb-2 text-body-secondary"><b>{{ $job->schedule->name }}</b></h6>
                         <div class="d-flex justify-content-around">
                             <div>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Category: <b> {{ $job->category->name }} </b></h6>
-                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">City: <b> {{ $job->city->name }}</b></h6>
+                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Category: <b> {{
+                                        $job->category->name }} </b></h6>
+                                <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">City: <b> {{ $job->city->name
+                                        }}</b></h6>
                             </div>
                             <div>
                                 <h6 class="card-subtitle fs-5 mb-2 text-body-secondary">Positions : <b> {{
@@ -88,6 +129,15 @@
             @endforeach
         </div>
     </section>
+    @else
+    <div class="container my-5">
+        <div class="alert alert-danger alert-dismissible text-center d-flex justify-content-between">
+            No matching jobs found for the submitted form. Please adjust your search criteria.
+            <a href="/jobs">
+                <span style="color: black;">X</span>
+            </a>
+        </div>
+    </div>
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

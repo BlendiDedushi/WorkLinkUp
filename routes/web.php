@@ -27,7 +27,7 @@ Route::middleware([
     Route::resource('users', UserController::class);
 
     Route::get('/job/{id}', [JobController::class, 'show'])->name('job');
-    Route::get('/user/{id}', [UserController::class, 'show'])->name('user');
+    Route::get('/user/{id}/show-profile', [UserController::class, 'show'])->name('user');
 
     Route::middleware(['role:user|company'])->group(function () {
         Route::get('/jobs', [JobController::class, 'index'])->name('jobs');

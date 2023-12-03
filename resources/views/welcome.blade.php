@@ -89,13 +89,14 @@
             </div>
         </div>
         <div class="mt-5 w-50">
-            <form method="POST" action="#">
+            <form method="get" action="{{ route('jobs') }}">
                 <div class="d-flex gap-3 justify-content-center align-items-center">
-                    <input type="search" class="form-control rounded" id="search" name="search"
-                        placeholder="name, city, category...">
+                    <input type="text" class="form-control rounded" name="q"
+                        placeholder="Search by job title" value="{{ $query ?? '' }}">
                     <button type="submit" class="btn btn-outline-light">Search</button>
                 </div>
             </form>
+            
         </div>
     </section>
 
