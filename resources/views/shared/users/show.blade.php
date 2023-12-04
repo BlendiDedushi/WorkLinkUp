@@ -110,7 +110,7 @@
                     @if ($user->filename && auth()->user()->hasRole('admin'))
                     <p>Current PDF File: <a
                             class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                            href="{{ route('download.pdf', $user->id) }}">Download PDF <i
+                            href="{{ route('download.pdf', $user->id) }}">Download<i
                                 class="bi bi-file-earmark-arrow-down"></i></a></p>
                     @endif
                     @if ($user->filename && auth()->user()->hasRole('user'))

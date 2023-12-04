@@ -30,11 +30,14 @@
         .crd {
             width: 30vh;
         }
+        .scrollh::-webkit-scrollbar {
+            display: none;
+        }
     </style>
     @livewireStyles
 </head>
 
-<body class="bgcl">
+<body class="bgcl scrollh">
     <header>
         @if (Route::has('login'))
         @auth
@@ -55,7 +58,7 @@
         @endauth
         @endif
     </header>
-    <section class="container d-flex justify-content-between my-5 font-monospace">
+    <section class="container d-flex justify-content-between mt-5 font-monospace">
         <div class="border rounded bg-dark text-white desc w-75">
             <div class="p-3 text-start">
                 <h2 class="fs-2 fw-bold fst-italic">{{ $job->title }}</h2>

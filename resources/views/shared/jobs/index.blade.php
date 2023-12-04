@@ -62,44 +62,43 @@
         @endif
     </header>
     @if($jobs && $jobs->count() > 0)
+    <div class="mt-5 container d-flex justify-content-center font-monospace">
+        <form action="{{ route('jobs') }}" method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control rounded zz" placeholder="Job Title" id="title" name="q"
+                        value="{{ $query ?? '' }}">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select zz scrollh" id="city" name="city">
+                        <option value="" selected disabled>Cities</option>
+                        @foreach($cities as $city)
+                        <option value="{{ $city->id }}" {{ request('city')==$city->id ? 'selected' : '' }}>
+                            {{ $city->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <select class="form-select zz scrollh" id="category" name="category">
+                        <option value="" selected disabled>All Categories</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : ''
+                            }}>
+                            {{ $category->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-danger">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <section class="my-5">
         <div class="container">
-            <form action="{{ route('jobs') }}" method="get" class="mb-4">
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <input type="text" class="form-control rounded zz" placeholder="Job Title" id="title" name="q"
-                            value="{{ $query ?? '' }}">
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <select class="form-select zz" id="city" name="city">
-                            <option value="" selected>All Cities</option>
-                            @foreach($cities as $city)
-                            <option value="{{ $city->id }}" {{ request('city')==$city->id ? 'selected' : '' }}>
-                                {{ $city->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <select class="form-select zz" id="category" name="category">
-                            <option value="" selected>All Categories</option>
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category')==$category->id ? 'selected' : ''
-                                }}>
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="container">
             <div>
-                <h1 class="fs-1 font-monospace text-white">All Jobs</h1>
                 @if ($jobs->lastPage() > 1)
                 <div class="d-flex gap-2 justify-content-between my-3">
                     <a class="btn btn-sm {{$jobs->onFirstPage() ? 'btn-outline-light disabled' : 'btn-outline-light'}}"
